@@ -1,3 +1,6 @@
+#ifndef ARENA_H
+#define ARENA_H
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -17,34 +20,8 @@ typedef struct {
 
 } Arena;
 
-//create the arena
-Arena *arena_create(u64 capacity);
 
-//push - returns a void pointer
-void *arena_push(Arena *arena, u64 size);
-
-//arena pop
-void arena_pop(Arena *arena, u64 size);
-
-//pop to
-void arena_pop_to(Arena *arena, u64 position);
-
-//arena clear
-void arena_clear(Arena *arena);
-
-//destory arena
-void arena_destroy(Arena *arena);
-
-int main(void){
-
-
-
-
-  return 0;
-}
-
-
-Arena *arena_create(u64 capacity)
+static inline Arena *arena_create(u64 capacity)
 
 {
 
@@ -56,7 +33,7 @@ Arena *arena_create(u64 capacity)
 
 }
 
-void *arena_push(Arena *arena, u64 size)
+static inline void *arena_push(Arena *arena, u64 size)
 
 {
 
@@ -75,7 +52,7 @@ void *result = (u8*)arena + arena->position;
 
   }
 
-void arena_pop(Arena *arena, u64 size)
+static inline void arena_pop(Arena *arena, u64 size)
 {
 
   u64 aligned_size = (size + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1);
@@ -89,7 +66,7 @@ void arena_pop(Arena *arena, u64 size)
 
 }
 
-void arena_pop_to(Arena *arena, u64 position)
+static inline void arena_pop_to(Arena *arena, u64 position)
 {
 
   if (position < sizeof(*arena)) {
@@ -107,12 +84,14 @@ void arena_pop_to(Arena *arena, u64 position)
 
 }
 
-void arena_clear(Arena *arena)
+static inline void arena_clear(Arena *arena)
 {
   arena->position = sizeof(*arena);
 }
 
-void arena_destroy(Arena *arena){
+static inline void arena_destroy(Arena *arena){
 
   free(arena);
 }
+
+#endif
